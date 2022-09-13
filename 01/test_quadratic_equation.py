@@ -1,4 +1,3 @@
-import math
 import pytest
 from quadratic_equation import solve_quadratic_equation
 
@@ -8,7 +7,7 @@ def _allclose_tuples(result, cannonical):
         isinstance(result, tuple) and
         len(result) == len(cannonical) and
         all(
-            math.isclose(got, expected)
+            got == pytest.approx(expected)
             for got, expected in zip(result, cannonical)
         )
     )
