@@ -1,4 +1,4 @@
-import math
+from math import sqrt
 
 
 EPS = 1e-15
@@ -16,7 +16,7 @@ def solve_quadratic_equation(a, b, c):
     Raises:
         ValueError for degenerate quadratic equations
     '''
-    if math.isclose(a, 0, abs_tol=EPS):
+    if a >= -EPS and a <= EPS:
         raise ValueError('Equation is not quadratic')
 
     discriminant = b*b - 4*a*c
@@ -27,6 +27,6 @@ def solve_quadratic_equation(a, b, c):
         return -0.5 * b / a,
 
     return (
-        -0.5 * (b + math.sqrt(discriminant)) / a,
-        -0.5 * (b - math.sqrt(discriminant)) / a,
+        -0.5 * (b + sqrt(discriminant)) / a,
+        -0.5 * (b - sqrt(discriminant)) / a,
     )
