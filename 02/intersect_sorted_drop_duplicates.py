@@ -1,4 +1,4 @@
-def merge_without_duplicates(left_iterable, right_iterable):
+def merge(left_iterable, right_iterable):
     '''
     Filters common elements from two sorted collections.
     Removes duplicates from result.
