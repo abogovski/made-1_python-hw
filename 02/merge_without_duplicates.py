@@ -1,30 +1,22 @@
-def __append_if_not_duplicate(result, value):
-    if not result or result[-1] != value:
-        result.append(value)
-
-
-def __flush_tail(result, tail):
-    for value in tail:
-        __append_if_not_duplicate(result, value)
-
-
-def merge_without_duplicates(left, right):
+def merge_without_duplicates(left_iterable, right_iterable):
     '''
-    Merges two sorted collections of ints into a list.
-    Removes duplicates.
+    Filters common elements from two sorted collections.
+    Removes duplicates from result.
     '''
     result = []
-    left_idx, right_idx = 0, 0
+    left_iter, right_iter = iter(left_iterable), iter(right_iterable)
 
-    while left_idx < len(left) and right_idx < len(right):
-        if left[left_idx] < right[right_idx]:
-            __append_if_not_duplicate(result, left[left_idx])
-            left_idx += 1
-        else:
-            __append_if_not_duplicate(result, right[right_idx])
-            right_idx += 1
+    try:
+        left, right = next(left_iter), next(right_iter)
+        while True:
+            if left == right and (not result or result[-1] != left):
+                result.append(left)
+            if left <= right:
+                left = next(left_iter)
+            if right < left:
+                right = next(right_iter)
 
-    __flush_tail(result, left[left_idx:])
-    __flush_tail(result, right[right_idx:])
+    except StopIteration:
+        pass
 
     return result
