@@ -1,6 +1,6 @@
 def merge(left_iterable, right_iterable):
     '''
-    Filters common elements from two sorted collections.
+    Filters common elements from two sorted iterables.
     Removes duplicates from result.
     '''
     result = []
