@@ -4,6 +4,10 @@ import queue
 
 
 def mean(wndsize):
+    '''
+    Decorator. Prints mean elapsed time over last `wndsize` runs.
+    Prints nothing for first `wndsize - 1` runs.
+    '''
     @dataclasses.dataclass
     class CallTimeStats:
         lastRuns: queue.Queue = None
