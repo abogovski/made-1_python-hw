@@ -17,7 +17,10 @@ class BaseWriter(ABC):
 
 class TxtReader(BaseReader):
     def load(self, fileobj):
-        return [s.rstrip('\n').encode().decode('unicode_escape') for s in fileobj]
+        return [
+            s.rstrip('\n').encode().decode('unicode_escape')
+            for s in fileobj
+        ]
 
 
 class TxtWriter(BaseWriter):
