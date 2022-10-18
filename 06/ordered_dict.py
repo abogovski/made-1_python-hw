@@ -1,15 +1,15 @@
 class KeyValueListNode:
-    def __init__(self, key=None, value=None, prev=None, next=None):
+    def __init__(self, key=None, value=None, prev_node=None, next_node=None):
         self.key = key
         self.value = value
-        self.prev = prev
-        self.next = next
+        self.prev = prev_node
+        self.next = next_node
 
 
 class OrderedDict:
     def __init__(self):
         self._first = KeyValueListNode()
-        self._last = KeyValueListNode(prev=self._first)
+        self._last = KeyValueListNode(prev_node=self._first)
         self._first.next = self._last
         self._key_to_node = {}
 
