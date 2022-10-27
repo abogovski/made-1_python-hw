@@ -21,21 +21,62 @@ def test_writers_should_be_derived_from_base_writer(writer):
 
 
 @pytest.mark.parametrize(
-    'reader,writer,data',
+    'reader,writer,data,serialized',
     [
-        (s.TxtReader, s.TxtWriter, ['']),
-        (s.CsvReader, s.CsvWriter, [[]]),
-        (s.JsonReader, s.JsonWriter, None),
-        (s.JsonReader, s.JsonWriter, []),
-        (s.JsonReader, s.JsonWriter, {}),
-
-        (s.TxtReader, s.TxtWriter, ['a b', '', '\n']),
-        (s.CsvReader, s.CsvWriter, [['a,b', 'c d'], ['1 2', '3\n4']]),
-        (s.JsonReader, s.JsonWriter, {'k': [0, 1, 2, 3]}),
+        (
+            s.TxtReader,
+            s.TxtWriter,
+            [''],
+            '\n',
+        ),
+        (
+            s.CsvReader,
+            s.CsvWriter,
+            [[]],
+            '\r\n',
+        ),
+        (
+            s.JsonReader,
+            s.JsonWriter,
+            None,
+            'null',
+        ),
+        (
+            s.JsonReader,
+            s.JsonWriter,
+            [],
+            '[]',
+        ),
+        (
+            s.JsonReader,
+            s.JsonWriter,
+            {},
+            '{}',
+        ),
+        (
+            s.TxtReader,
+            s.TxtWriter,
+            ['a b', '', '\n'],
+            'a b\n\n\\n\n',
+        ),
+        (
+            s.CsvReader,
+            s.CsvWriter,
+            [['a,b', 'c d'], ['1 2', '3\n4']],
+            '"a,b",c d\r\n1 2,"3\n4"\r\n',
+        ),
+        (
+            s.JsonReader,
+            s.JsonWriter,
+            {'k': [0, 1, 2, 3]},
+            '{"k": [0, 1, 2, 3]}',
+        ),
     ]
 )
-def test_load_dump(reader, writer, data):
+def test_load_dump(reader, writer, data, serialized):
     fileobj = StringIO()
     s.dump_data(deepcopy(data), fileobj, writer())
+    assert fileobj.getvalue() == serialized
+
     fileobj.seek(0)
     assert s.read_data(fileobj, reader()) == data
