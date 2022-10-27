@@ -6,7 +6,6 @@ def __read_filtered_from_file(fileobj, target_words):
     for line in fileobj:
         if set(line.lower().split()) & target_words:
             yield line.rstrip('\n')
-            print('yield')
 
 
 def read_filtered(f, target_words):
