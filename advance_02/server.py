@@ -12,8 +12,14 @@ _PORT = 8080
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Web document stats server')
-    parser.add_argument('-k', type=int, required=True, help='Return top k most common words in response')
-    parser.add_argument('-w', type=int, required=True, help='Number of server workers')
+    parser.add_argument(
+        '-k', type=int, required=True,
+        help='Return top k most common words in response',
+    )
+    parser.add_argument(
+        '-w', type=int, required=True,
+        help='Number of server workers',
+    )
     return parser.parse_args()
 
 

@@ -30,19 +30,28 @@ def _ensure_str(data):
 
 
 def _fetch_data(http, url):
-    data = http.request('GET', url, preload_content=True, decode_content=True).data
-    return data
+    return http.request(
+        'GET',
+        url,
+        preload_content=True,
+        decode_content=True,
+    ).data
 
 
 def _top_word_count(text, num_top):
     logging.debug(f'Collecting {num_top} most common words')
-    words = map(lambda match: match.group(0).lower(), re.finditer(_RE_ALPHANUM, text))
+    words = map(
+        lambda match: match.group(0).lower(),
+        re.finditer(_RE_ALPHANUM, text),
+    )
     return dict(Counter(words).most_common(num_top))
 
 
 def _write_json(connection, obj):
     serialized = json.dumps(obj).encode()
-    connection.sendall(len(serialized).to_bytes(2, 'big', signed=False) + serialized)
+    connection.sendall(
+        len(serialized).to_bytes(2, 'big', signed=False) + serialized
+    )
 
 
 def handle_request(connection, url, num_top):
