@@ -1,3 +1,4 @@
+memory_profiler>=0.61
 pytest>=7.1
 pytest-mock>=3.8
 urllib3>=1.26

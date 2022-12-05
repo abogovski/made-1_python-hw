@@ -1,4 +1,8 @@
+# should not be set to True simultaneously
 _PROFILE = True
+_MEMPROFILE = False  # should be run via python -m memory_profile profiling.py, if set to True
+_BULK_SIZE = 10000 if _MEMPROFILE else 1000000
+
 
 import time
 import weakref
@@ -8,10 +12,13 @@ if _PROFILE:
     import pstats
     import io
 
+if _MEMPROFILE:
+    from memory_profiler import profile
+
 
 class profile_deco:
     def __init__(self, func):
-        self._func = func
+        self._func = profile(func) if _MEMPROFILE else func
         self._profile = cProfile.Profile() if _PROFILE else None
 
     def __call__(self, *args, **kwargs):
@@ -87,9 +94,9 @@ def measure_run_time(func, *args):
     return '{:.3f}'.format(end - start)
 
 
-def main(bulk_size=1000000):
+def main():
     attr = Attr()
-    points = [None] * bulk_size
+    points = [None] * _BULK_SIZE
 
     for point_class in (ObjectWithAttr, ObjectWithSlot, ObjectWithWeakref):
         print(point_class.__name__, measure_run_time(bulk_create, points, attr, point_class), end='')
