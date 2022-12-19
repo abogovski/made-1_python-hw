@@ -1,4 +1,3 @@
-import pytest
 from message_mood import SomeModel, predict_message_mood
 
 
